@@ -8,9 +8,6 @@ __pycache__
 # Ignore CSV files
 data/
 
-# Ignore Parquet files in DuckDB's output
-bronze_parquet_output/
-
 # Ignore s3 sign-in details
 s3_stuff/
 

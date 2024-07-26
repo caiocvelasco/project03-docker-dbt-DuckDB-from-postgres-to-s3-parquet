@@ -1,14 +1,9 @@
 # Integrating dbt-core
 dbt-core
 dbt-duckdb    # Installing dbt-duckdb adapter (https://docs.getdbt.com/docs/core/connect-data-platform/duckdb-setup) (https://github.com/duckdb/dbt-duckdb)
-dbt-snowflake # Installing dbt-snowflake adapter (https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup)
-# dbt-postgres # Installing postgres adapter
 
 # Integrating library to interact with AWS S3
 boto3 
-
-# Integrating Snowflake via Jupyter Notebook
-snowflake-connector-python
 
 # Integrating Data Analysis Tools
 pandas

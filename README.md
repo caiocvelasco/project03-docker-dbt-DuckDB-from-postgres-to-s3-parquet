@@ -1,6 +1,6 @@
 # dbt-DuckDB: ETL Pipeline with Medallion Architecture & Star Schema (Dockerized Postgres, Jupyter Notebook, and dbt-DuckDB).
 
-<img src = "img/project_02-elt-medallion_dbt.png">
+<img src = "img\dbt_1_ingestion.jpg">
 
 ## Table of Contents
 
