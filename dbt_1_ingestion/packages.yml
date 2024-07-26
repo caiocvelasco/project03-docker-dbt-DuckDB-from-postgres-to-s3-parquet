@@ -1,0 +1,3 @@
+packages:
+  - package: dbt-labs/dbt_utils # will be used to reference the path (data/raw) to the CSV files
+    version: 1.2.0 # this is the compatible version with dbt-core`s 1.8.3 version (the one I installed) - check: https://hub.getdbt.com/dbt-labs/dbt_utils/latest/

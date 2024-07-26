@@ -1,0 +1,143 @@
+version: 2
+
+models:
+  - name: customers
+    description: "Customer data ingested from CSV files"
+    columns:
+      - name: customer_id
+        description: "Unique identifier for each customer"
+        data_tests:
+          - unique
+          - not_null
+      - name: name
+        description: "Name of the customer"
+        data_tests:
+          - not_null
+      - name: age
+        description: "Age of the customer"
+      - name: gender
+        description: "Gender of the customer"
+      - name: signup_date
+        description: "Signup date of the customer"
+        data_tests:
+          - date_format
+      # - name: extracted_at
+      #   description: "Timestamp when the data was extracted"
+      # - name: inserted_at
+      #   description: "Timestamp when the data was inserted into the database"
+
+  - name: dates
+    description: "Date-related information"
+    columns:
+      - name: date_id
+        description: "Unique identifier for each date"
+        data_tests:
+          - unique
+          - not_null
+      - name: date
+        description: "The actual date"
+        data_tests:
+          - not_null
+          - date_format
+      - name: week
+        description: "Week of the year"
+      - name: month
+        description: "Month of the year"
+      - name: quarter
+        description: "Quarter of the year"
+      - name: year
+        description: "Year"
+      # - name: extracted_at
+      #   description: "Timestamp when the data was extracted"
+      # - name: inserted_at
+      #   description: "Timestamp when the data was inserted into the database"
+
+  - name: product_usage
+    description: "Product usage data by customers on specific dates"
+    columns:
+      - name: usage_id
+        description: "Unique identifier for each usage record"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Unique identifier for each customer"
+      - name: date_id
+        description: "Reference to the date of usage"
+      - name: product_id
+        description: "Unique identifier for each product"
+      - name: num_logins
+        description: "Number of logins or interactions"
+      - name: amount
+        description: "Amount associated with the product usage"
+      # - name: extracted_at
+      #   description: "Timestamp when the data was extracted"
+      # - name: inserted_at
+      #   description: "Timestamp when the data was inserted into the database"
+
+  - name: products
+    description: "Information about products"
+    columns:
+      - name: product_id
+        description: "Unique identifier for each product"
+        data_tests:
+          - unique
+          - not_null
+      - name: product_name
+        description: "Name of the product"
+      - name: category
+        description: "Category of the product"
+      - name: price
+        description: "Price of the product"
+      # - name: extracted_at
+      #   description: "Timestamp when the data was extracted"
+      # - name: inserted_at
+      #   description: "Timestamp when the data was inserted into the database"
+
+  - name: subscriptions
+    description: "Information about customer subscriptions"
+    columns:
+      - name: subscription_id
+        description: "Unique identifier for each subscription"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Unique identifier for each customer"
+      - name: start_date
+        description: "Start date of the subscription"
+        data_tests:
+          - date_format
+      - name: end_date
+        description: "End date of the subscription"
+        data_tests:
+          - date_format
+      - name: type
+        description: "Type of the subscription"
+      - name: status
+        description: "Status of the subscription"
+      # - name: extracted_at
+      #   description: "Timestamp when the data was extracted"
+      # - name: inserted_at
+      #   description: "Timestamp when the data was inserted into the database"
+
+  - name: support_interactions
+    description: "Information about customer support interactions"
+    columns:
+      - name: interaction_id
+        description: "Unique identifier for each interaction"
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: "Unique identifier for each customer"
+      - name: date_id
+        description: "Reference to the date of the interaction"
+      - name: issue_type
+        description: "Type of the issue reported"
+      - name: resolution_time
+        description: "Time taken to resolve the issue"
+      # - name: extracted_at
+      #   description: "Timestamp when the data was extracted"
+      # - name: inserted_at
+      #   description: "Timestamp when the data was inserted into the database"
