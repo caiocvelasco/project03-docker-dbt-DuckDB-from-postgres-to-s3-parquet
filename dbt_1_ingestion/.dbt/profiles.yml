@@ -32,23 +32,3 @@ duckdb_profile:
         s3_access_key_id: "{{ env_var('S3_ACCESS_KEY_ID') }}"          # [5]
         s3_secret_access_key: "{{ env_var('S3_SECRET_ACCESS_KEY') }}"  # [5]
       threads: 4  # [4]
-
-# References (dbt-snowflake):
-#   [0] https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup
-#   [3] https://docs.getdbt.com/docs/core/dbt-core-environments
-#   [4] https://docs.getdbt.com/docs/running-a-dbt-project/using-threads
-#   [5] https://docs.getdbt.com/reference/dbt-jinja-functions/env_var
-
-snowflake_profile:  # Check: https://github.com/dbt-labs/jaffle-shop-mesh-platform/blob/main/profiles.yml
-  target: dev
-  outputs:
-    dev:
-      type: snowflake # [0]
-      account:  "{{ env_var('SNOWFLAKE_ACCOUNT') }}"     # [5]
-      user:     "{{ env_var('SNOWFLAKE_USER') }}"           # [5]
-      password: "{{ env_var('SNOWFLAKE_PASSWORD') }}" 
-      database: "{{ env_var('SNOWFLAKE_DATABASE') }}"   # [5]
-      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') }}" # [5]
-      role: "ACCOUNTADMIN" # "{{ env_var('SNOWFLAKE_ROLE') }}"
-      schema: dbt_caio_snf # [3] Best practices: set your 'dev' target schema to be 'dbt_<username>'. If you have multiple dbt users writing code, it often makes sense for each user to have their own development environment.
-      threads: 8 # [4]

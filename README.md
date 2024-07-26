@@ -11,18 +11,17 @@
   - [Build and Run](#build-and-run)
 - [Services](#services)
 - [dbt](#dbt)
+- [Ingestion Step](#ingestion-step)
 
 ## Project Structure
 
 - **name_of_your_project_repo (project-root)/**
     - **.devcontainer/**
       - devcontainer.json
-    - **.dbt/**
     - **databases/**
       - dev.duckdb
-    - **dbt_1_ingestion/**
-    - **dbt_2_transformation/**
-    - **external_ingestion**
+    - **dbt_1_ingestion/** (This is where the dbt project is located)
+    - **external_ingestion** (This behaves as a Postgres in Prod, which will be used bydbt-DuckDB for ingestion)
     - **.env**
     - **.gitignore**
     - **.python-version**
@@ -38,6 +37,8 @@
 Make sure you have the following installed on your local development environment:
 
 - [Docker](https://www.docker.com/get-started)
+  - PLEASE NOTE: make sure to Enable
+    - Go to: `Docker Desktop > Settings > Resources > WSL integration > Click on Enable Button for Ubuntu-22.04`
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [VSCode](https://code.visualstudio.com/) with the [Remote - Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 
@@ -45,10 +46,9 @@ Make sure to inclue a .gitignore file with the following information:
 
 *.pyc          (to ignore python bytecode files)
 .env           (to ignore sensitive information, such as database credentials)
-target/        (to ignore compiled SQL files and other build artifacts that are generated when dbt runs)
-dbt_packages/  (to ignore where dbt installs packages, which are specific to your local environment)
-logs/          (to ignore logs)
 data/          (to ignore CSV files)
+s3_stuff/      (to ignore S3 Access Keys and Credentials)
+old_stuff/
 
 ### Environment Variables
 The .gitignore file, ignores the ´.env´ file for security reasons. However, since this is just for educational purposes, follow the step below to include it in your project. If you do not include it, the docker will not work.
@@ -70,14 +70,11 @@ Create a `.env` file in the project root with the following content:
 - S3_SNOWFLAKE_STORAGE_INTEGRATION=your_s3_integration_name (you will create this, check jupyter notebook)
 - S3_SNOWFLAKE_STAGE=your_s3_stage_name (you will create this, check jupyter notebook)
 - S3_SNOWFLAKE_FILE_FORMAT=your_file_format_name (you will create this, check jupyter notebook)
-- SNOWFLAKE_USER=your_snowflake_user
-- SNOWFLAKE_ROLE=your_snowflake_new_role
-- SNOWFLAKE_PASSWORD=your_snowflake_password_role
-- SNOWFLAKE_ACCOUNT=your_snowflake_account_number
-- SNOWFLAKE_ACCOUNT_URL=https://YOUR_ACCOUNT_ID.YOUR_REGION.aws.snowflakecomputing.com
-- SNOWFLAKE_WAREHOUSE=your_snowflake_warehouse
-- SNOWFLAKE_DATABASE=your_snowflake_database
-- SNOWFLAKE_SCHEMA_BRONZE=bronze
+
+If you want to check if your Docker environment can see the environment variables, do:
+* cd /workspace
+* printenv (this will show if the environmental variables were loaded within the Docker container)
+* printenv | grep S3 (this functions as a filter to show only the variables that contain 'S3')
 
 ### Build and Run
 
@@ -106,14 +103,13 @@ Create a `.env` file in the project root with the following content:
 
 dbt (Data Build Tool) is a development environment that enables data analysts and engineers to transform data in their warehouse more effectively. To use dbt in this project, follow these steps:
 
-1. **Install dbt**: The Dockerfile and Docker Compose file will do this for you.
-2. **Configure database connection**: The `profiles.yml` was created inside a `.dbt` folder in the same level as the `docker-compose.yml`. It defines connections to your data warehouse. It also uses environment variables to specify sensitive information like database credentials (which in this case is making reference to the `.env` file that is being ignored by `.gitignore`, so you should have one in the same level as the `docker-compose.yml` - as shown in the folder structure above.)
-3. **Install dbt packages**: Never forget to run `dbt deps` so that dbt can install the packages within the `packages.yml` file.
-4. **Run DBT**: Once dbt is installed and configured, you can use it to build your dbt models. Use the `dbt run` command to run the models against your database and apply transformations.
-
-### PLEASE NOTE
-For this project, there are 2 (two) profiles.yml, which are exactly the same. However, the docker compose was created in a simplified manner, so it mounts the `.dbt` directory specific to `dbt_1_ingestion` into the container's root user's home directory (/root/.dbt).
-
-Therefore, when you run `dbt debug` inside any of the two dbt project folders (`dbt_1_ingestion` or `dbt_2_transformation`), dbt will look for the `profiles.yml` within the `dbt_1_ingestion`'s `.dbt` folder. Sorry for this, but it was just easier.
-
-* Thus, make sure to always update both `profiles.yml` and keep them exactly the same.
+1. **Install dbt**
+  * The Dockerfile and Docker Compose file will do this for you.
+2. **Configure database connection**
+  * The `profiles.yml` is located in a `.dbt` folder at `dbt_1_ingestion/.dbt/profiles.yml`.
+  * It defines connections to your data warehouse. It also uses environment variables to specify sensitive information like database credentials (which in this case is making reference to the `.env` file that is being ignored by `.gitignore`, so you should have one in the same level as the `docker-compose.yml` - as shown in the folder structure above.)
+3. **Install dbt packages**
+  * Never forget to run `dbt deps` so that dbt can install the packages within the `packages.yml` file.
+4. **Run DBT**
+  * Once dbt is installed and configured, you can use it to build your dbt models, which are SQL scripts that will be materialized in your data warehouse of choice.
+  * Use the `dbt run` command to run the models against your database and apply transformations.

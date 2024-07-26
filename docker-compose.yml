@@ -34,8 +34,8 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock  # Bind Docker socket to enable Docker commands within the container. This enable the "docker prune" command from devcontainer.json to work when rebuilding docker.
       #  - ~/.ssh:/root/.ssh
     working_dir: /workspace
-    depends_on:
-      - postgres # Name of the service/image that is build before, generating dependency
+    # depends_on:
+    #   - postgres # Name of the service/image that is build before, generating dependency
     stdin_open: true # Allow an interactive terminal session
     tty: true # Allow an interactive terminal session
     command: sleep infinity  # Add this line to keep the container running

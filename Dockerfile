@@ -39,7 +39,7 @@ RUN python -m ipykernel install --user --name python_postgresql --display-name "
 RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/microsoft/vscode-dev-containers/master/script-library/jupyter.sh)"
 
 # Install the latest version of dbt Core and the dbt-postgres adapter
-RUN pip install --no-cache-dir --upgrade dbt-core dbt-postgres
+# RUN pip install --no-cache-dir --upgrade dbt-core dbt-postgres
 
 # Copy requirements.txt and install dependencies
 COPY requirements.txt .

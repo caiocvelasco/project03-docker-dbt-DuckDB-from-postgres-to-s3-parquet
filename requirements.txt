@@ -1,13 +1,13 @@
 # Integrating dbt-core
 dbt-core
 dbt-duckdb    # Installing dbt-duckdb adapter (https://docs.getdbt.com/docs/core/connect-data-platform/duckdb-setup) (https://github.com/duckdb/dbt-duckdb)
-
+dbt-postgres
 # Integrating library to interact with AWS S3
 boto3 
 
 # Integrating Data Analysis Tools
 pandas
-numpy
+# numpy
 
 # Integrating Data Visualization Tools
 # seaborn # For visualization
@@ -31,5 +31,5 @@ psycopg2 # A PostgreSQL adapter for Python required to connect to PostgreSQL dat
 # Integration Other Tools
 # faker # To ingest fake data via the python script with sql
 # tweepy # If we want to access twitter api and manipulate jsons
-requests # Allows you to send HTTP/1.1 requests extremely easily
+# requests # Allows you to send HTTP/1.1 requests extremely easily
 python-dotenv # Reads key-value pairs from a .env file and can set them as environment variables
