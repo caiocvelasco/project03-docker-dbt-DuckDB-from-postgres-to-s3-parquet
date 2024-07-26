@@ -19,9 +19,9 @@
     - **.devcontainer/**
       - devcontainer.json
     - **databases/**
-      - dev.duckdb
-    - **dbt_1_ingestion/** (This is where the dbt project is located)
-    - **external_ingestion** (This behaves as a Postgres in Prod, which will be used bydbt-DuckDB for ingestion)
+      - dev.duckdb           (This is created after you run dbt)
+    - **dbt_1_ingestion/**   (This is where your dbt project lives)
+    - **external_ingestion** (This behaves as a Postgres in Prod, which will be used by `dbt-DuckDB` for ingestion)
     - **.env**
     - **.gitignore**
     - **.python-version**

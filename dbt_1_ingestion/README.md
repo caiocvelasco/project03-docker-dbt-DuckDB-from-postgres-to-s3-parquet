@@ -9,7 +9,7 @@
 
 ## Project Structure
 
-- **dbt_1_ingestion (project-root)/**
+- **dbt_1_ingestion (your-dbt-project)/**
     - **.dbt**
       - profiles.yml (connection details for our database environments)
     - **analyses**
