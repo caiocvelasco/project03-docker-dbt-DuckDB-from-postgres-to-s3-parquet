@@ -1,6 +1,6 @@
-# ETL - Part 1 of 2 - Leveraging dbt-DuckDB to perform Ingestion Step (Reading from Postgres, converting to Parquet, and saving them into an S3 Bucket).
+# ETL - Leveraging dbt-DuckDB to perform Ingestion Step (Reading from Postgres, converting to Parquet, and saving them into an S3 Bucket).
 
-<img src = "img/dbt_1_ingestion.jpg">
+<img src = "../img/dbt_1_ingestion.jpg">
 
 ## Table of Contents
 
@@ -28,15 +28,15 @@
         - sources.sql
     - **seeds**
     - **snapshots**
-    - **target** (ignored in git)
+    - **target**           (ignored in git)
     - **tests**
     - **.gitignore**
     - **dbt_project.yml**  (the main file: this is how dbt knows a directory is a dbt project)
     - **packages.yml**     (where dbt packages should be configured)
     - **package-lock.yml** (created by dbt when the 'dbt deps' is executed against the packages.yml)
     - **README.md**
-    - test_s3_access.ipynb (create to test s3 access)
-    - test_duckdb.ipynb    (create test running queries against DuckDB)
+    - test_s3_access.ipynb (created to test S3 access)
+    - test_duckdb.ipynb    (created test running queries against DuckDB)
 
 ## Ingestion Step
 

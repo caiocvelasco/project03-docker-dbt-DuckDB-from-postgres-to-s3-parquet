@@ -1,6 +1,6 @@
-# dbt-DuckDB: ETL Pipeline with Medallion Architecture & Star Schema (Dockerized Postgres, Jupyter Notebook, and dbt-DuckDB).
+# ETL - Leveraging dbt-DuckDB to perform Ingestion Step (Reading from Postgres, converting to Parquet, and saving them into an S3 Bucket).
 
-<img src = "img\dbt_1_ingestion.jpg">
+<img src = "img/dbt_1_ingestion.jpg">
 
 ## Table of Contents
 
@@ -11,7 +11,6 @@
   - [Build and Run](#build-and-run)
 - [Services](#services)
 - [dbt](#dbt)
-- [Ingestion Step](#ingestion-step)
 
 ## Project Structure
 
@@ -21,7 +20,7 @@
     - **databases/**
       - dev.duckdb           (This is created after you run dbt)
     - **dbt_1_ingestion/**   (This is where your dbt project lives)
-    - **external_ingestion** (This behaves as a Postgres in Prod, which will be used by `dbt-DuckDB` for ingestion)
+    - **external_postgres**  (This behaves as a Postgres in Prod, which will be used by `dbt-DuckDB` for ingestion)
     - **.env**
     - **.gitignore**
     - **.python-version**
@@ -44,14 +43,14 @@ Make sure you have the following installed on your local development environment
 
 Make sure to inclue a .gitignore file with the following information:
 
-*.pyc          (to ignore python bytecode files)
-.env           (to ignore sensitive information, such as database credentials)
-data/          (to ignore CSV files)
-s3_stuff/      (to ignore S3 Access Keys and Credentials)
-old_stuff/
+* *.pyc          (to ignore python bytecode files)
+* .env           (to ignore sensitive information, such as database credentials)
+* data/          (to ignore CSV files)
+* s3_stuff/      (to ignore S3 Access Keys and Credentials)
+* old_stuff/
 
 ### Environment Variables
-The .gitignore file, ignores the ´.env´ file for security reasons. However, since this is just for educational purposes, follow the step below to include it in your project. If you do not include it, the docker will not work.
+The .gitignore file, ignores the `.env` file for security reasons. However, since this is just for educational purposes, follow the step below to include it in your project. If you do not include it, the docker will not work.
 
 Create a `.env` file in the project root with the following content:
 
@@ -90,26 +89,17 @@ If you want to check if your Docker environment can see the environment variable
 
 **Note**: I have included the command `"postCreateCommand": "docker image prune -f"` in the **.devcontainer.json** file. Therefore, whenever the docker containeirs are rebuilt this command will make sure to delete the `unused (dangling)` images. The -f argument ensures you don't need to confirm if you want to perform this action.
 
-### Services
+## Services
 
 * **Postgres**: 
   * A PostgreSQL database instance.
   * Docker exposes port 5432 of the PostgreSQL container to port 5432 on your host machine. This makes service is accessible via `localhost:5432` on your local machine for visualization tools such as PowerBI and Tableau. However, within the docker container environment, the other services will use the postgres _hostname_ as specified in the `.env` file (`POSTGRES_HOST`).
   * To test the database from within the container's terminal: `psql -h $POSTGRES_HOST -p 5432 -U $POSTGRES_USER -d $POSTGRES_DB`
-* **DBT**: The Data Build Tool (dbt) for transforming data in the data warehouse.
-* **Jupyter Notebook**: A Jupyter Notebook instance for interactive data analysis and for checking the models materialized by dbt.
+* **dbt**: The Data Build Tool (dbt) for transforming data in the data warehouse.
+* **Jupyter Notebook**: A Jupyter Notebook instance for interactive data analysis and for running SQL against PostgreSQL and checking access to S3.
 
-### dbt
+## dbt
 
-dbt (Data Build Tool) is a development environment that enables data analysts and engineers to transform data in their warehouse more effectively. To use dbt in this project, follow these steps:
-
-1. **Install dbt**
-  * The Dockerfile and Docker Compose file will do this for you.
-2. **Configure database connection**
-  * The `profiles.yml` is located in a `.dbt` folder at `dbt_1_ingestion/.dbt/profiles.yml`.
-  * It defines connections to your data warehouse. It also uses environment variables to specify sensitive information like database credentials (which in this case is making reference to the `.env` file that is being ignored by `.gitignore`, so you should have one in the same level as the `docker-compose.yml` - as shown in the folder structure above.)
-3. **Install dbt packages**
-  * Never forget to run `dbt deps` so that dbt can install the packages within the `packages.yml` file.
-4. **Run DBT**
-  * Once dbt is installed and configured, you can use it to build your dbt models, which are SQL scripts that will be materialized in your data warehouse of choice.
-  * Use the `dbt run` command to run the models against your database and apply transformations.
+* dbt (Data Build Tool) is a development environment that enables data analysts and engineers to transform data in their warehouse more effectively.
+* Once dbt is installed and configured, you can use it to build your dbt models, which are SQL scripts that will be materialized in your data warehouse of choice.
+* Go to the `dbt_1_ingestion/` folder and follow the README in there.
